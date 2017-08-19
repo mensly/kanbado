@@ -5,7 +5,8 @@ namespace Kanbado
 {
     public interface IDataStore<T>
     {
-        Task<bool> AddItemAsync(T item);
+		Task<bool> AddItemAsync(T item);
+		Task<bool> StartItemAsync(T item);
 		Task<bool> UpdateItemAsync(T item);
 		Task<bool> DeleteItemAsync(T item);
 		Task<bool> CompleteItemAsync(T item);

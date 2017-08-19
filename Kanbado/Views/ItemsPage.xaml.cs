@@ -28,9 +28,9 @@ namespace Kanbado
             BindingContext = viewModel;
         }
 
-        async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
+        void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
         {
-            var item = args.SelectedItem as Item;
+            var item = args.SelectedItem as ItemViewModel;
             if (item == null)
                 return;
 

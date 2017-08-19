@@ -11,19 +11,19 @@ namespace Kanbado
 {
     public class ItemsViewModel : BaseViewModel
     {
-        public ObservableCollection<Item> Items { get; set; }
+        public ObservableCollection<ItemViewModel> Items { get; set; }
         public Command LoadItemsCommand { get; set; }
         private readonly ICollection<ItemState> filter;
 
         public ItemsViewModel(ICollection<ItemState> filter)
         {
             this.filter = filter;
-            Items = new ObservableCollection<Item>();
+            Items = new ObservableCollection<ItemViewModel>();
             LoadItemsCommand = new Command(async (isEmpty) =>
                                            await ExecuteLoadItemsCommand(isEmpty as bool? ?? false));
         }
 
-        async Task ExecuteLoadItemsCommand(bool isEmpty)
+        protected virtual async Task ExecuteLoadItemsCommand(bool forceRefresh)
         {
             if (IsBusy)
                 return;
@@ -33,10 +33,10 @@ namespace Kanbado
             try
             {
                 Items.Clear();
-                var items = await DataStore.GetItemsAsync(filter, forceRefresh:isEmpty);
+                var items = await DataStore.GetItemsAsync(filter, forceRefresh);
                 foreach (var item in items)
                 {
-                    Items.Add(item);
+                    Items.Add(new ItemViewModel(item));
                 }
             }
             catch (Exception ex)
@@ -49,7 +49,7 @@ namespace Kanbado
             }
         }
 
-        public virtual void OnItemSelected(Item item) {
+        public virtual void OnItemSelected(ItemViewModel item) {
             
         }
     }

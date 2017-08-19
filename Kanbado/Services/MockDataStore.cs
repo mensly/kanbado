@@ -46,12 +46,28 @@ namespace Kanbado
 
 		public async Task<bool> DeleteItemAsync(Item item)
 		{
+            if (item.State == ItemState.Deleted)
+			{
+				return await Task.FromResult(false);
+			}
 			return await UpdateItemAsync(item.WithState(ItemState.Deleted));
 		}
 
 		public async Task<bool> CompleteItemAsync(Item item)
 		{
-            return await UpdateItemAsync(item.WithState(ItemState.Completed));
+            if (item.State != ItemState.InProgress)
+			{
+				return await Task.FromResult(false);
+			}
+			return await UpdateItemAsync(item.WithState(ItemState.Completed));
+		}
+
+		public async Task<bool> StartItemAsync(Item item)
+		{
+            if (item.State != ItemState.Backlog) {
+                return await Task.FromResult(false);
+            }
+            return await UpdateItemAsync(item.WithState(ItemState.InProgress));
 		}
 
         public async Task<Item> GetItemAsync(string id)

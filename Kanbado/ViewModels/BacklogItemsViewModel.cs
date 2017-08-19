@@ -11,14 +11,14 @@ namespace Kanbado
 			MessagingCenter.Subscribe<NewItemPage, string>(this, "AddItem", async (obj, text) =>
 			{
                 var item = new Item(text as string);
-				Items.Add(item);
+                Items.Add(new ItemViewModel(item));
 				await DataStore.AddItemAsync(item);
 			});
         }
 
-        public override async void OnItemSelected(Item item)
+        public override async void OnItemSelected(ItemViewModel item)
         {
-            if (await DataStore.DeleteItemAsync(item))
+            if (await DataStore.DeleteItemAsync(item.Item))
             {
                 Items.Remove(item);
             }

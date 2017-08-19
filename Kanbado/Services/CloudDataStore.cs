@@ -81,9 +81,13 @@ namespace Kanbado
             return response.IsSuccessStatusCode;
 		}
 
-        public async Task<bool> CompleteItemAsync(Item item)
-        {
-            return await Task.FromResult(false);
-        }
+		public async Task<bool> CompleteItemAsync(Item item)
+		{
+			return await Task.FromResult(false);
+		}
+		public async Task<bool> StartItemAsync(Item item)
+		{
+			return await Task.FromResult(false);
+		}
     }
 }
